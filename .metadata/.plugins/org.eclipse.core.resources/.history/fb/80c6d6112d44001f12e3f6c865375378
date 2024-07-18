@@ -1,0 +1,5 @@
+package com.te.spring_boot.config;
+
+public class StudentConfig {
+
+}

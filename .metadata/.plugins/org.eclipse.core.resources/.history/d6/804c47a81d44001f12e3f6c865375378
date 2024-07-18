@@ -1,0 +1,5 @@
+package com.te.spring_boot_jpa.entity;
+
+public class Student {
+
+}

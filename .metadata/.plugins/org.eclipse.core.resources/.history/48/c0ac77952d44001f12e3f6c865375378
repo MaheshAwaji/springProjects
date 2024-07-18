@@ -1,0 +1,23 @@
+package com.te.spring_boot.config;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+
+import com.te.spring_boot.entity.Student;
+import com.te.spring_boot.repository.StudentRepository;
+
+@Configuration
+public class StudentConfig {
+	CommandLineRunner commandLineRunner(
+			StudentRepository repository) {
+		return args->{
+			new Student( "Mahesh", "mahi@gmail.com", LocalDate.of(2000, Month.APRIL, 12), 23);
+			new Student( "Mahesh", "mahi@gmail.com", LocalDate.of(2000, Month.APRIL, 12), 23);
+			
+		};
+	}
+
+}

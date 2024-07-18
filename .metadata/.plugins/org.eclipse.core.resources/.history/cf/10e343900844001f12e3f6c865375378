@@ -1,0 +1,23 @@
+package com.te.jpa;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+
+import com.te.jpa.entity.User;
+import com.te.jpa.repository.UserRepository;
+
+@SpringBootApplication
+public class SpringBootJpaApplication {
+
+	public static void main(String[] args) {
+		ApplicationContext context = SpringApplication.run(SpringBootJpaApplication.class, args);
+		UserRepository userRepository = context.getBean(UserRepository.class);
+		User user=new User();
+		user.setName("Mahesh Awaji");
+		user.setCity("Pune");
+		User user1 = userRepository.save(user);
+		System.out.println(user1);
+	}
+
+}

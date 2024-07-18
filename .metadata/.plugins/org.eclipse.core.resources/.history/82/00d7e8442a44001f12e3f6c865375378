@@ -1,0 +1,24 @@
+package com.te.spring_boot.service;
+
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.te.spring_boot.entity.Student;
+import com.te.spring_boot.repository.StudentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class StudentService {
+	private final StudentRepository studentRepository;
+
+	public List<Student> getStudents() {
+		return List.of(new Student(2l, "Mahesh", "mahesh@gmail.com", LocalDate.of(2000, Month.FEBRUARY, 23), 23),
+				new Student(2l, "Mahesh", "mahesh@gmail.com", LocalDate.of(2000, Month.FEBRUARY, 23), 23));
+	}
+
+}

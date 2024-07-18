@@ -1,0 +1,27 @@
+package com.te.spring_boot_jpa;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.te.spring_boot_jpa.entity.Student;
+
+@SpringBootApplication
+@RestController
+public class SpringBootJpaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootJpaApplication.class, args);
+	}
+	
+	@GetMapping
+	public List<Student> hello() {
+		return List.of(new Student(2l, "Mahesh", "mahesh@gmail.com",
+				LocalDate.of(2000, 03, 23), 23));
+	}
+
+}

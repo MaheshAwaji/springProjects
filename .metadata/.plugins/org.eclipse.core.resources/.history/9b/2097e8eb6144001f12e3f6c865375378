@@ -1,0 +1,36 @@
+package com.te.spring_boot.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import com.te.spring_boot.entity.Student;
+import com.te.spring_boot.repository.StudentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class StudentService {
+	private final StudentRepository studentRepository;
+
+	public List<Student> getStudents() {
+		return studentRepository.findAll();
+	}
+
+	public void addNewStudent(Student student) {
+		Optional<Student> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
+		if (studentOptional.isPresent()) {
+			
+			throw new IllegalStateException("email taken");
+			
+		}else {
+			studentRepository.save(student);
+		}
+		System.out.println(student);
+		
+	}
+
+}

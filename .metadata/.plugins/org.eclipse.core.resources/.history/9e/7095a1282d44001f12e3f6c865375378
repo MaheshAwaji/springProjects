@@ -1,0 +1,16 @@
+package com.te.spring_boot.config;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+
+import com.te.spring_boot.repository.StudentRepository;
+
+@Configuration
+public class StudentConfig {
+	CommandLineRunner commandLineRunner(StudentRepository repository) {
+		return args->{
+			
+		};
+	}
+
+}
