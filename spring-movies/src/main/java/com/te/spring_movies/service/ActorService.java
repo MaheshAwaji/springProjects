@@ -12,6 +12,7 @@ import com.te.spring_movies.dto.MovieDto;
 import com.te.spring_movies.entity.Actor;
 import com.te.spring_movies.entity.Language;
 import com.te.spring_movies.entity.Movie;
+import com.te.spring_movies.exception.ActorNotFoundException;
 import com.te.spring_movies.repository.ActorRepository;
 import com.te.spring_movies.repository.LanguageRepository;
 import com.te.spring_movies.repository.MovieRepository;
@@ -86,18 +87,24 @@ public class ActorService {
 
 	public Optional<ActorDto> getActorById(String id) {
 		Optional<Actor> actor = actorRepository.findById(Integer.parseInt(id));
-		ActorDto actorDto=new ActorDto();
-		List<MovieDto> movies=new ArrayList<>();
-		actorDto.setActorId(actor.get().getActorId());
-		actorDto.setDob(actor.get().getDob());
-		actorDto.setName(actor.get().getName());
-		for(Movie movie:actor.get().getMovies()) {
-			MovieDto movieDto=new MovieDto();
-			BeanUtils.copyProperties(movie, movieDto);
-			movies.add(movieDto);
+		if (actor.isPresent()) {
+			ActorDto actorDto=new ActorDto();
+			List<MovieDto> movies=new ArrayList<>();
+			actorDto.setActorId(actor.get().getActorId());
+			actorDto.setDob(actor.get().getDob());
+			actorDto.setName(actor.get().getName());
+			for(Movie movie:actor.get().getMovies()) {
+				MovieDto movieDto=new MovieDto();
+				BeanUtils.copyProperties(movie, movieDto);
+				movies.add(movieDto);
+			}
+			actorDto.setMovies(movies);
+			return Optional.ofNullable(actorDto);
+			
+		}else {
+			throw new ActorNotFoundException("Actor is not present");
 		}
-		actorDto.setMovies(movies);
-		return Optional.ofNullable(actorDto);
+		
 		
 	}
 

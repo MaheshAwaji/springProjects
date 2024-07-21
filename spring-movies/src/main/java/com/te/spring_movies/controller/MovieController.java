@@ -1,6 +1,7 @@
 package com.te.spring_movies.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +40,8 @@ public class MovieController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ActorDto> getAllActorById(@PathVariable String id) {
-		ActorDto actorById = actorService.getActorById(id)
-				.orElseThrow(()->new ActorNotFoundException("Actor not found"));
-		return new ResponseEntity<>(actorById,HttpStatus.OK);
+		Optional<ActorDto> actorById = actorService.getActorById(id);
+		return new ResponseEntity<ActorDto>(actorById.get(),HttpStatus.OK);
 		
 
 	}
