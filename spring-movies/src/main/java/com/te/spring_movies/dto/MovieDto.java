@@ -19,6 +19,6 @@ public class MovieDto {
 	private LocalDate releaseYear;
 	private Integer imdbRating;
 	private Language language;
-	private List<ActorDto> actors;
+//	private List<ActorDto> actors;
 
 }

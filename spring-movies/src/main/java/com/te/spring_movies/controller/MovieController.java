@@ -1,7 +1,6 @@
 package com.te.spring_movies.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +38,8 @@ public class MovieController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Actor> getAllActorById(@PathVariable String id) {
-		Actor actorById = actorService.getActorById(id)
+	public ResponseEntity<ActorDto> getAllActorById(@PathVariable String id) {
+		ActorDto actorById = actorService.getActorById(id)
 				.orElseThrow(()->new ActorNotFoundException("Actor not found"));
 		return new ResponseEntity<>(actorById,HttpStatus.OK);
 		
@@ -55,8 +54,13 @@ public class MovieController {
 	}
 
 	@DeleteMapping(path = "/deleteActor/{id}")
-	public void deleteActor(@PathVariable String id) {
-		actorService.deleteActor(id);
+	public ResponseEntity<Void> deleteActor(@PathVariable String id) {
+		Boolean deleteActor = actorService.deleteActor(id);
+		if (deleteActor) {
+			return ResponseEntity.noContent().build();
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@GetMapping(path = "/getLanguages")

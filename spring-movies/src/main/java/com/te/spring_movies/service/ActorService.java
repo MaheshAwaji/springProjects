@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.te.spring_movies.dto.ActorDto;
@@ -46,9 +47,17 @@ public class ActorService {
 			movie.setMovieId(movieDto.getMovieId());
 			movie.setReleaseYear(movieDto.getReleaseYear());
 
-			Language language=new Language();
-			language.setName(movieDto.getLanguage().getName());
-			languageRepository.save(language);
+			Language language=languageRepository.findByName(movieDto.getLanguage().getName()).
+					orElseGet(()->{
+						Language newLanguage=new Language();
+						newLanguage.setName(movieDto.getLanguage().getName());
+						return languageRepository.save(newLanguage);
+						
+					});
+//			Language language=new Language();
+//			language.setName(movieDto.getLanguage().getName());
+//			languageRepository.save(language);
+			
 			movie.setLanguage(language);
 			
 			
@@ -63,19 +72,33 @@ public class ActorService {
 
 	}
 
-	public void deleteActor(String id) {
+	public Boolean deleteActor(String id) {
 		boolean actorExist = actorRepository.existsById(Integer.parseInt(id));
 		if (actorExist) {
 			actorRepository.deleteById(Integer.parseInt(id));
-			;
+			return true;
+			
 		} else {
-			throw new IllegalStateException("Actor with id " + id + " does not exists");
+			return false;
 		}
 
 	}
 
-	public Optional<Actor> getActorById(String id) {
-		return actorRepository.findById(Integer.parseInt(id));
+	public Optional<ActorDto> getActorById(String id) {
+		Optional<Actor> actor = actorRepository.findById(Integer.parseInt(id));
+		ActorDto actorDto=new ActorDto();
+		List<MovieDto> movies=new ArrayList<>();
+		actorDto.setActorId(actor.get().getActorId());
+		actorDto.setDob(actor.get().getDob());
+		actorDto.setName(actor.get().getName());
+		for(Movie movie:actor.get().getMovies()) {
+			MovieDto movieDto=new MovieDto();
+			BeanUtils.copyProperties(movie, movieDto);
+			movies.add(movieDto);
+		}
+		actorDto.setMovies(movies);
+		return Optional.ofNullable(actorDto);
+		
 	}
 
 }
