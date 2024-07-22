@@ -18,7 +18,9 @@ import com.te.spring_movies.repository.LanguageRepository;
 import com.te.spring_movies.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ActorService {
@@ -26,8 +28,17 @@ public class ActorService {
 	private final MovieRepository movieRepository;
 	private final LanguageRepository languageRepository;
 
-	public List<Actor> getActors() {
-		return actorRepository.findAll();
+	public List<ActorDto> getActors() {
+		List<Actor> findAll = actorRepository.findAll();
+		List<ActorDto> actorDtos=new ArrayList<>();
+		
+		for (Actor actor : findAll) {
+			ActorDto actorDto=new ActorDto();
+			BeanUtils.copyProperties(actor, actorDto);
+			actorDtos.add(actorDto);
+			
+		}
+		return actorDtos;
 	}
 
 	public ActorDto addNewActor(ActorDto actorDto) {
@@ -86,8 +97,10 @@ public class ActorService {
 	}
 
 	public Optional<ActorDto> getActorById(String id) {
+		log.info("Getting the Actor from the database");
 		Optional<Actor> actor = actorRepository.findById(Integer.parseInt(id));
 		if (actor.isPresent()) {
+			log.info("Copying all the fields from Actor to the ActorDto");
 			ActorDto actorDto=new ActorDto();
 			List<MovieDto> movies=new ArrayList<>();
 			actorDto.setActorId(actor.get().getActorId());

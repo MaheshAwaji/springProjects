@@ -33,7 +33,7 @@ public class MovieController {
 	private final MovieService movieService;
 
 	@GetMapping("/getActors")
-	public List<Actor> getAllActors() {
+	public List<ActorDto> getAllActors() {
 		return actorService.getActors();
 
 	}
